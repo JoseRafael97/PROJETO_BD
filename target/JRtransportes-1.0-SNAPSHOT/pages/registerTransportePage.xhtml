@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+
+    <h:head>
+        <title>Novo Transporte</title>
+    </h:head>
+
+    <ui:define name="conteudo">
+        <h:body>
+            <h1 style="font-family: monospace; font-size: 40px"></h1>
+
+            <p:growl id="mensages" autoUpdate="true" showDetail="true" showSummary="true"/>
+
+            <h:form id="form">
+                <br/>
+                <br/>
+                <p:growl id="message" showDetail="true" />
+
+                <p:panel header="Novo Transporte" style="width : 46%; margin-left: 330px;text-align: center" >
+                    <br/>
+                    <h:panelGrid id="transporte" columns="2" border="0" cellpadding="9" >
+
+                        <p:outputLabel for="effect" value="Data Saída" />
+                        <p:calendar id="effect" value="#{transportsBean.transports.dtDeparture}"  mindate="#{transportsBean.dataAtual}" effect="fold" size="27"  style="width: 100%"/>
+
+                        <p:outputLabel for="effect2" value="Data entrega" />
+                        <p:calendar id="effect2" value="#{transportsBean.transports.dtDelivery}" mindate="#{transportsBean.dataAtual}" effect="fold" size="27" style="width: 100%"/>
+
+                        <p:outputLabel id="cep" value="Cep"  />
+                        <p:inputText  required="true" requiredMessage="Campo Cep obrigatório" maxlength="8" size="27" style="text-align:left" value="#{transportsBean.transports.cep}"/>
+
+                        <p:outputLabel id="lbcidade" value="Cidade" />
+                        <p:inputText id="txtCidade" required="true" size="27" requiredMessage="Campo Cidade obrigatório" value="#{transportsBean.transports.city}"/>
+                        
+                        <p:outputLabel id="lbAdress" value="Endereço" />
+                        <p:inputText id="txtAdress" required="true" size="27" requiredMessage="Campo Endereço obrigatório" value="#{transportsBean.transports.adress}"/>
+
+                        <h:outputText value="Veículos " />
+                        <p:selectOneMenu   requiredMessage="Selecione um Veículo" effect="fade" value="#{transportsBean.transports.vehicle}" converter="converteVehicle"  required="true" style="width: 100%" >
+                            <f:selectItems value="#{transportsBean.listVehicle}" var="vehicle"  itemLabel="#{vehicle.brand; vehicle.model}" itemValue="#{vehicle}" />
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Cargas" />
+                        <p:selectOneMenu requiredMessage="Selecione a carga que deseja transporta" effect="fade" value="#{transportsBean.transports.charge}" converter="converteCarga"  required="true" style="width: 100%" >
+                            <f:selectItems value="#{chargeBean.charges}" var="carga"  itemLabel="#{carga.id}" itemValue="#{carga}" />
+                        </p:selectOneMenu>
+                        
+                    </h:panelGrid>
+                    <br/> 
+                    <p:commandButton id="salvaTransporte" value="Confirmar" action="#{transportsBean.addTransport()}"  update="transporte" style="text-align: center">
+                        <p:confirm header="Confirmar" message="Deseja realmenta Cadastrar novo Transporte?" icon="ui-icon-alert" />
+                    </p:commandButton>                        
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="dlg" header="Values"> 
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                    <br/>
+                    <br/>
+                </p:panel>
+
+            </h:form>
+        </h:body>
+    </ui:define>
+</ui:composition>

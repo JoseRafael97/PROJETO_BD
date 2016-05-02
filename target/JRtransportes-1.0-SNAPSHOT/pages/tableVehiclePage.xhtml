@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+    <ui:define name="conteudo" >
+        <h:body>
+            <p:growl id="mensages" autoUpdate="true" showDetail="true" showSummary="true"/>
+
+            <br/>
+            <br/>
+            <h:form id="form">
+                <p:growl id="msgs" showDetail="true"/>
+
+                <p:dataTable id="tabVehicle" emptyMessage="Nao existe dados correspondetes." var="vehicle" value="#{vehicleBean.listVehicle}" editable="true" style="margin-bottom:40px"> 
+
+                    <f:facet name="header">
+                        Todos os Veículos
+                    </f:facet>
+
+                    <p:ajax event="rowEdit" listener="#{vehicleBean.onRowEdit}" update=":form:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{vehicleBean.onRowCancel}" update=":form:msgs" />
+
+                    <p:column  headerText="Id" width="30" filterBy="#{vehicle.id}">
+                        <h:outputText value="#{vehicle.id}"/>
+                    </p:column>
+
+                    <p:column headerText="Marca" width="140" filterBy="#{vehicle.brand}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{vehicle.brand}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="txtMarca" value="#{vehicle.brand}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Modelo" width="200" filterBy="#{vehicle.model}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{vehicle.model}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="txtMOdelo" value="#{vehicle.model}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Ano" filterBy="#{vehicle.year}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{vehicle.year}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="txAno" value="#{vehicle.year}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                    <p:column headerText="Placa" width="130" filterBy="#{vehicle.board}">
+                        <h:outputText value="#{vehicle.board}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Motorista" width="200" filterBy="#{vehicle.driver.name}">
+                        <h:outputText value="#{vehicle.driver.name}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Situação" width="200" filterBy="#{vehicle.situacao}">
+                        <h:outputText value="#{vehicle.situacao}"/>
+                    </p:column>
+                    
+                    
+                    <p:column headerText="Edit" width="30">
+                        <p:rowEditor ></p:rowEditor>
+                    </p:column>
+
+                    <p:column headerText="Excluir" width="60" >
+                        <p:commandButton id="btExcluir" process="@this" style="alignment-adjust: central" action="#{vehicleBean.removeVehicle()}" icon="ui-icon ui-icon-trash"  update="tabVehicle" >
+                            <f:setPropertyActionListener value="#{vehicle}" target="#{vehicleBean.vehicleSelected}" />
+                            <p:resetInput target="tabVehicle"/>
+                            <p:confirm header="Confirmar" message="Deseja realmenta excluir Veículo?" icon="ui-icon-alert" />
+                        </p:commandButton> 
+                    </p:column>
+
+                </p:dataTable>
+                <p:confirmDialog  global="true" showEffect="fade" hideEffect="fade" widgetVar="dlg" header="Values">
+                    <p:commandButton value="Sim" update="tabVehicle" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                </p:confirmDialog>
+            </h:form>
+
+
+        </h:body>
+    </ui:define>
+</ui:composition>

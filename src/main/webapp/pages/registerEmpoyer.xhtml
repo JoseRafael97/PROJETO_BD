@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+
+    <h:head>
+        <title>Novo Funcionário</title>
+    </h:head>
+
+    <ui:define name="conteudo">
+        <h:body>
+            <h1 style="font-family: monospace; font-size: 40px"></h1>
+
+            <p:growl id="mensages" autoUpdate="true" showDetail="true" showSummary="true"/>
+
+            <h:form id="form">
+                <br/>
+                <br/>
+                <p:growl id="message" showDetail="true" />
+
+                <p:panel header="Novo empregado" style="width : 64%; margin-left: 205px;text-align: center" >
+                    <br/>
+                    <h:panelGrid id="employer" columns="2" border="0" cellpadding="9" >
+
+                        <p:outputLabel id="lbNome" value="Nome"/> 
+                        <p:inputText  required="true" requiredMessage="Campo nome obrigatório" size="40" value="#{driverBean.driver.name}"/>
+
+                        <p:outputLabel id="lbCPF" value="CPF" />
+                        <p:inputText  required="true" maxlength="11" requiredMessage="Campo CPF obrigatório" size="40" value="#{driverBean.driver.cpf}"/>
+
+                        <p:outputLabel id="lbRg" value="RG"  />
+                        <p:inputText  required="true" maxlength="10" requiredMessage="Campo RG obrigatório" size="40" style="text-align:left" value="#{driverBean.driver.rg}"/>
+
+                        <p:outputLabel id="lbSala" value="Salario" />
+                        <p:inputText id="txtsalario" required="true" size="40" requiredMessage="Campo Salario obrigatório" value="#{driverBean.driver.salary}"/>
+
+                        <p:outputLabel id="lbCh" value="Carga H. (Semanal)" />
+                        <p:inputText id="txtcH" required="true" size="40" requiredMessage="Campo Carga H. obrigatório" value="#{driverBean.driver.workload}"/>
+
+                        <p:outputLabel id="lbCnh" value="CNH"/>
+                        <p:inputText id="txtCNH"  disabled="#{driverBean.campoCNH}" size="40" value="#{driverBean.driver.cnh}"/>
+
+
+                    </h:panelGrid>
+                    <br/> 
+                    <p:commandButton id="salvaEmpregado" value="Confirmar" action="#{driverBean.addEmployer()}"  update="employer" style="text-align: center">
+                        <p:confirm header="Confirmar" message="Deseja realmenta Cadastrar novo Empregado?" icon="ui-icon-alert" />
+                    </p:commandButton>                        
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="dlg" header="Values"> 
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                    <br/>
+                    <br/>
+                </p:panel>
+
+            </h:form>
+        </h:body>
+    </ui:define>
+</ui:composition>

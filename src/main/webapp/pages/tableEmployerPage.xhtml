@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+    <ui:define name="conteudo" >
+        <h:body>
+            <p:growl id="mensages" autoUpdate="true" showDetail="true" showSummary="true"/>
+
+            <br/>
+            <br/>
+            <h:form id="form">
+                <p:growl id="msgs" showDetail="true"/>
+
+                <p:dataTable id="tabEmployer" var="emp" emptyMessage="Nao existe dados correspondetes." value="#{driverBean.listEmployer}" editable="true" style="margin-bottom:40px"> 
+
+                    <f:facet name="header">
+                        Todos Empregados
+                    </f:facet>
+
+                    <p:ajax event="rowEdit" listener="#{driverBean.onRowEdit}" update=":form:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{driverBean.onRowCancel}" update=":form:msgs" />
+
+                    <p:column  headerText="Id" width="50" filterBy="#{emp.id}">
+                        <h:outputText value="#{emp.id}"/>
+                    </p:column>
+
+                    <p:column headerText="Nome" width="200" filterBy="#{emp.name}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{emp.name}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="clientNome" value="#{emp.name}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+
+                    </p:column>
+                    <p:column headerText="CPF" width="160" filterBy="#{emp.cpf}">
+                        <h:outputText value="#{emp.cpf} " />
+                    </p:column>
+
+                    <p:column headerText="RG" width="100" filterBy="#{emp.rg}">
+                        <h:outputText value="#{emp.rg} " />
+                    </p:column>
+                    
+                    <p:column headerText="Salario" width="100" filterBy="#{emp.salary}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{emp.salary}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="productPeso" value="#{emp.salary}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+
+                    <p:column headerText="H. Sem." width="55" filterBy="#{emp.workload}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{emp.workload}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="productQuant" value="#{emp.workload}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Categoria" width="120" filterBy="#{emp.type}">
+                        <h:outputText value="#{emp.type} " />
+                    </p:column>
+
+                    <p:column headerText="Edit" width="30">
+                        <p:rowEditor ></p:rowEditor>
+                    </p:column>
+                    
+                    <p:column headerText="Excluir" width="60" >
+                        <p:commandButton id="btExcluir" process="@this" style="alignment-adjust: central" action="#{driverBean.removeEmployer()}" 
+                                         icon="ui-icon ui-icon-trash"  update="tabEmployer" >
+                            <f:setPropertyActionListener value="#{emp}" target="#{driverBean.driveSelected}" />
+                            <p:resetInput target="tabEmployer"/>
+                            <p:confirm header="Confirmar" message="Deseja realmenta excluir Produto?" icon="ui-icon-alert" />
+                        </p:commandButton> 
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:confirmDialog  global="true" showEffect="fade" hideEffect="fade" widgetVar="dlg" header="Values">
+                    <p:commandButton value="Sim" update="tabEmployer" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" update="tabEmployer"/>
+                </p:confirmDialog>
+            </h:form>
+
+
+        </h:body>
+    </ui:define>
+</ui:composition>

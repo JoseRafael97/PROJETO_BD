@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+    <ui:define name="conteudo" >
+        <h:body>
+            <p:growl id="mensages" autoUpdate="true" showDetail="true" showSummary="true"/>
+
+            <br/>
+            <br/>
+            <h:form id="form">
+                <p:growl id="msgs" showDetail="true"/>
+
+                <p:dataTable id="tabCharge" widgetVar="char" emptyMessage="Nao existe dados correspondetes." var="charge" value="#{chargeBean.charges}" editable="true" style="margin-bottom:40px"> 
+
+                    <f:facet name="header">
+                        Todas as Cargas
+                    </f:facet>
+
+
+                    <p:column  headerText="Id" width="30" filterBy="#{charge.id}">
+                        <h:outputText value="#{charge.id}"/>
+                    </p:column>
+
+                    <p:column headerText="Peso(Kg)" width="230" filterBy="#{charge.weight}">
+                        <h:outputText value="#{charge.weight}"/>
+                    </p:column>
+
+                    <p:column headerText="Situação" width="200" filterBy="#{charge.situacao}">
+                        <h:outputText value="#{charge.situacao}"/>
+                    </p:column>
+
+                    <p:column headerText="Produtos" width="200">
+                        <p:commandButton id="btProdutos" value="detalhes" style="alignment-adjust: central" onclick="PF('dlg2').show()" 
+                                         update=":formDialog:tabProduct" >
+                            <f:setPropertyActionListener  target="#{chargeBean.chargeSelect}"  value="#{charge}"/>
+                        </p:commandButton> 
+                    </p:column>
+
+                    <p:column headerText="Excluír" width="200" >
+                        <p:commandButton id="btExcluir"  process="@this" style="alignment-adjust: central" action="#{chargeBean.removeCharge()}"
+                                         icon="ui-icon ui-icon-trash"  update="tabCharge">
+                            <f:setPropertyActionListener value="#{charge}" target="#{chargeBean.chargeSelect}" />
+                            <p:resetInput target="tabCharge"/>
+                            <p:confirm header="Confirmar" message="Deseja realmenta excluir Carga?" icon="ui-icon-alert" />
+                        </p:commandButton> 
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:confirmDialog  global="true" showEffect="fade" hideEffect="fade" widgetVar="dlg" header="Values">
+                    <p:commandButton value="Sim" update="tabCharge" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                </p:confirmDialog>
+            </h:form>
+
+            <p:dialog  header="Detalhes Produtos" widgetVar="dlg2" 
+                      resizable="false" id="productDlg" dynamic="true" showEffect="flod"
+                      appendTo="@(body)"  hideEffect="explode" modal="true" width="50%">
+                <h:form id="formDialog">
+                    <p:dataTable id="tabProduct" value="#{chargeBean.chargeSelect.products}" var="pro">
+                        <p:column headerText="Id" width="3">
+                            <h:outputText value="#{pro.id}"/>
+                        </p:column>
+                        <p:column headerText="Nome" width="10" >
+                            <h:outputText value="#{pro.name}"/>
+                        </p:column>
+                        <p:column headerText="Prop." width="10" >
+                            <h:outputText value="#{pro.client.name}"/>
+                        </p:column>
+                    </p:dataTable >
+                </h:form>
+            </p:dialog>
+        </h:body>
+    </ui:define>
+</ui:composition>

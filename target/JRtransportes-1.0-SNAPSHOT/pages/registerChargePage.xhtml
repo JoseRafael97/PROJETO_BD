@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+
+    <h:head>
+        <title>Nova Carga</title>
+    </h:head>
+
+    <ui:define name="conteudo">
+        <h:body>
+            <h1 style="font-family: monospace; font-size: 40px"></h1>
+
+            <p:growl id="mensages" autoUpdate="true" showDetail="true" showSummary="true"/>
+
+            <h:form id="formCharge">
+                <br/>
+                <br/>
+                <p:growl id="messages" showDetail="true" />
+
+                <p:panel header="Nova Carga" style="width : 28%; text-align: center; margin-left: 410px" >
+                    <br/>
+                    <h:panelGrid id="registerCharge" columns="2" border="0" cellpadding="3" style=" text-align: center">
+
+                        <p:outputLabel for="product" value="Produtos" />
+                        <p:selectManyMenu   id="product" value="#{chargeBean.selectedProducts}"  showCheckbox="true" converter="converteCharge" filter="true" filterMatchMode="contains" var="product" >
+                            <f:selectItems value="#{productBean.listProduct}" var="produ" itemLabel="#{produ.name}" itemValue="#{produ}"/>
+                            <p:column>
+                                <h:outputText value="#{product.id}" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{product.name}" />
+                            </p:column>
+                        </p:selectManyMenu>
+
+                    </h:panelGrid>
+                    <br/> 
+                    <p:commandButton async="true"  id="salvarCharge" value="Confirmar" action="#{chargeBean.addCharge()}"  update="registerCharge" style="text-align: center">
+                        <p:confirm header="Confirmar" message="Deseja realmenta criar nova Charge?" icon="ui-icon-alert" />
+                    </p:commandButton>                    
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="dlg" header="Values"> 
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                    <br/>
+                    <br/>
+                </p:panel>
+
+            </h:form>
+        </h:body>
+    </ui:define>
+</ui:composition>

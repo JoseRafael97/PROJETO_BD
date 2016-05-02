@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+
+    <h:head>
+        <title>Novo Usuário</title>
+    </h:head>
+
+    <ui:define name="conteudo">
+        <h:body>
+
+            <p:growl id="mensages" autoUpdate="true" showDetail="true" showSummary="true"/>
+
+            <h:form id="CadastroClient">
+                <br/>
+                <br/>
+                <p:growl id="message" showDetail="true" />
+
+                <p:panel header="Novo Cliente" style="width : 50%; text-align: center; margin-left: 300px" >
+                    <br/>
+                    <h:panelGrid id="registerClient" columns="2" border="0" cellpadding="9" style=" text-align: center">
+
+                        <p:outputLabel id="lbNome" value="Nome"/> 
+                        <p:inputText  required="true" requiredMessage="Campo nome obrigatório" size="35" value="#{clientBean.client.name}"/>
+
+                        <p:commandLink value="Selecionar" action="#{clientBean.bloaqueiaCampos()}" update="CadastroClient" />
+                        <p:selectOneRadio id="doc"  value="#{clientBean.docu}">
+                            <f:selectItem  itemLabel="CPF" itemValue="CPF" />
+                            <f:selectItem itemLabel="CNPJ" itemValue="CNPJ" />
+                        </p:selectOneRadio>
+
+                        <p:outputLabel id="lbCpf" value="CPF" />
+                        <p:inputMask id="Cpf" disabled="#{clientBean.campoCPF}" mask="999999999999999999" size="35" value="#{clientBean.client.cnpjCpf}"/> 
+
+                        <p:outputLabel id="lbCnpj" value="CNPJ" />
+                        <p:inputMask id="cnpj" disabled="#{clientBean.campoCNPJ}" mask="999999999999999999" size="35" value="#{clientBean.client.cnpjCpf}"/> 
+
+                        <p:outputLabel id="lbTelefone" value="Telefone"  />
+                        <p:inputMask id="phone"  mask="999999999999999" size="35" value="#{clientBean.client.phone}" /> 
+
+                        <p:outputLabel id="lbEndereco" value="Endereço" />
+                        <p:inputText id="txtEndereco" required="true" requiredMessage="Campo enderenço obrigatório" size="35" value="#{clientBean.client.address}"/>
+
+                    </h:panelGrid>
+                    <br/> 
+                    <p:commandButton id="salvarClient" value="Confirmar" action="#{clientBean.addClient()}"  update="registerClient" style="text-align: center">
+                        <p:confirm header="Confirmar" message="Deseja realmenta cadastrar Cliente?" icon="ui-icon-alert" />
+                    </p:commandButton>                        
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="dlg" header="Values"> 
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                    <br/>
+                    <br/>
+                </p:panel>
+                <h:panelGrid columns="2" style="text-align: center; margin-left: 560px">
+                </h:panelGrid>
+            </h:form>
+        </h:body>
+    </ui:define>
+</ui:composition>

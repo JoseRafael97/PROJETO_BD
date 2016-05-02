@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+
+    <h:head>
+        <title>Novo Produto</title>
+    </h:head>
+
+    <ui:define name="conteudo">
+        <h:body>
+            <h1 style="font-family: monospace; font-size: 40px"></h1>
+
+            <p:growl id="mensages" autoUpdate="true" showDetail="true" showSummary="true"/>
+
+            <h:form id="registerProduct">
+                <br/>
+                <br/>
+                <p:growl id="message" showDetail="true" />
+
+                <p:panel header="Novo Produto" style="width : 55%; margin-left: 250px;text-align: center" >
+                    <br/>
+                    <h:panelGrid id="registerProducts" columns="2" border="0" cellpadding="7" >
+
+                        <p:outputLabel id="lbNome" value="Nome"/> 
+                        <p:inputText  required="true" requiredMessage="Campo nome obrigatório" size="32" value="#{productBean.produto.name}"/>
+
+                        <p:outputLabel id="lbTipo" value="Marca/ Modelo" />
+                        <p:inputText  required="true" requiredMessage="Campo Tipo obrigatório" size="32" value="#{productBean.produto.type}"/>
+
+                        <p:outputLabel id="lbPreco" value="Preço p/Uni."  />
+                        <p:inputText  required="true" requiredMessage="Campo nome obrigatório" size="32" style="text-align:left" value="#{productBean.produto.price}"/>
+
+                        <p:outputLabel id="lbPeso" value="Peso p/ Uni. em (g)" />
+                        <p:inputText id="txtPeso" required="true" size="32" requiredMessage="Campo Peso obrigatório" value="#{productBean.produto.peso}"/>
+
+                        <h:outputText value="Quant." />
+                        <p:selectOneMenu effect="fade" value="#{productBean.produto.quant}" required="true" style="width: 100%" >
+                            <f:selectItems value="#{productBean.numeros}" var="numeros" itemLabel="#{numeros}"  itemValue="#{numeros}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Cliente " />
+                        <p:selectOneMenu requiredMessage="Selecione um cliente" effect="fade" value="#{productBean.produto.client}" converter="converteClient"  required="true" style="width: 100%" >
+                            <f:selectItem  itemLabel="Selecione um Cliente"/>    
+                            <f:selectItems value="#{clientBean.list}" var="client"  itemLabel="#{client.name}" itemValue="#{client}" />
+                        </p:selectOneMenu>
+
+                    </h:panelGrid>
+                    <br/> 
+                    <p:commandButton id="salvarProduct" value="Confirmar" action="#{productBean.addProduct()}"  update="registerProduct" style="text-align: center">
+                        <p:confirm header="Confirmar" message="Deseja realmenta cria novo Produto?" icon="ui-icon-alert" />
+                    </p:commandButton>                        
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="dlg" header="Values"> 
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                    <br/>
+                    <br/>
+                </p:panel>
+
+            </h:form>
+        </h:body>
+    </ui:define>
+</ui:composition>

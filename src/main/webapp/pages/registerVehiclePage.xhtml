@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+
+    <h:head>
+        <title>Novo Veículo</title>
+    </h:head>
+
+    <ui:define name="conteudo">
+        <h:body>
+            <h1 style="font-family: monospace; font-size: 40px"></h1>
+
+            <p:growl id="mensages" autoUpdate="true" showDetail="true" showSummary="true"/>
+
+            <h:form id="form">
+                <br/>
+                <br/>
+                <p:growl id="message" showDetail="true" />
+
+                <p:panel header="Novo Veículo" style="width : 42%; margin-left: 330px;text-align: center" >
+                    <br/>
+                    <h:panelGrid id="vehicle" columns="2" border="0" cellpadding="9" >
+
+                        <p:outputLabel id="lbMarca" value="Marca"/> 
+                        <p:inputText  required="true" requiredMessage="Campo marca obrigatório" size="27" value="#{vehicleBean.vehicle.brand}"/>
+
+                        <p:outputLabel id="lbModelo" value="Modelo" />
+                        <p:inputText  required="true" requiredMessage="Campo MOdelo obrigatório" size="27" value="#{vehicleBean.vehicle.model}"/>
+
+                        <p:outputLabel id="lbAno" value="Ano"  />
+                        <p:inputText  required="true" requiredMessage="Campo Ano obrigatório" size="27" style="text-align:left" value="#{vehicleBean.vehicle.year}"/>
+
+                        <p:outputLabel id="lbPlaca" value="Placa" />
+                        <p:inputText id="txtsalario" required="true" size="27" requiredMessage="Campo Salario obrigatório" value="#{vehicleBean.vehicle.board}"/>
+
+
+                        <h:outputText value="Motorista " />
+                        <p:selectOneMenu requiredMessage="Selecione um Motorista" effect="fade" value="#{vehicleBean.vehicle.driver}" converter="converteDriver"  required="true" style="width: 100%" >
+                            <f:selectItem  itemLabel="Selecione um Motorista"/>    
+                            <f:selectItems value="#{driverBean.listEmployer}" var="driver"  itemLabel="#{driver.name}" itemValue="#{driver}" />
+                        </p:selectOneMenu>
+
+                    </h:panelGrid>
+                    <br/> 
+                    <p:commandButton id="salvaVehicle" value="Confirmar" action="#{vehicleBean.addVehicle()}"  update="vehicle" style="text-align: center">
+                        <p:confirm header="Confirmar" message="Deseja realmenta Cadastrar novo Veículo?" icon="ui-icon-alert" />
+                    </p:commandButton>                        
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="dlg" header="Values"> 
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                    <br/>
+                    <br/>
+                </p:panel>
+
+            </h:form>
+        </h:body>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <title><ui:insert name="titulo">JR Transportes</ui:insert></title>
+    </h:head>
+
+    <h:body>
+        <div align="center"> <h:graphicImage library="images" name="cabecalho.png"/> </div>
+        <h:form>
+            <p:menubar>
+                <p:menuitem value="Inicio" url="/pages/homePage.xhtml"/>
+
+                <p:submenu label="Funcionarios" >
+                    <p:menuitem value="Novo" url="/pages/registerEmpoyer.xhtml" />
+                    <p:menuitem value="Todos os Func." url="/pages/tableEmployerPage.xhtml" />
+                </p:submenu>
+
+                <p:submenu label="Produtos" >
+                    <p:menuitem value="Novo" url="/pages/registerProductPage.xhtml" />
+                    <p:menuitem value="Todos os Produtos" url="/pages/tableProductPage.xhtml" />
+                    <p:menuitem value="Rastrear" url="/pages/rastrearProduct.xhtml" />
+                </p:submenu>
+
+                <p:submenu label="Veículos" >
+                    <p:menuitem value="Cadastrar" url="/pages/registerVehiclePage.xhtml" />
+                    <p:menuitem value="Todos os Veículos" url="/pages/tableVehiclePage.xhtml" />
+                </p:submenu>
+
+                <p:submenu label="Clientes" >
+                    <p:menuitem value="Novo" url="/pages/registerClientPage.xhtml" />
+                    <p:menuitem value="Todos os Cliente" url="/pages/tableClientPage.xhtml" />
+                </p:submenu>
+
+                <p:submenu label="Cargas" >
+                    <p:menuitem value="Nova carga" url="/pages/registerChargePage.xhtml" />
+                    <p:menuitem value="Todas as cargas" url="/pages/tableChargePage.xhtml" />
+                    <p:menuitem value="Rastrear" url="/pages/rastrearCharge.xhtml" />
+                </p:submenu>
+
+                <p:submenu label="Transporte" >
+                    <p:menuitem value="Novo" url="/pages/registerTransportePage.xhtml" />
+                    <p:menuitem value="Em Andamento" url="/pages/tableTransportPage.xhtml" />
+                </p:submenu>
+                
+              
+            </p:menubar>
+        </h:form>
+        <ui:insert name="conteudo"></ui:insert>
+    </h:body>
+
+</html>

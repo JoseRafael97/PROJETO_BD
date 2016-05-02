@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/template.xhtml">
+    <ui:define name="conteudo" >
+        <h:body>
+            <p:growl id="mensages" autoUpdate="true" showDetail="true" showSummary="true"/>
+
+            <br/>
+            <br/>
+            <h:form id="form">
+                <p:growl id="msgs" showDetail="true"/>
+
+                <p:dataTable id="tabClient" emptyMessage="Nao existe dados correspondetes." var="client" value="#{clientBean.list}" editable="true" style="margin-bottom:40px"> 
+
+                    <f:facet name="header">
+                        Clientes Cadastrados
+                    </f:facet>
+
+                    <p:ajax event="rowEdit" listener="#{clientBean.onRowEdit}" update=":form:msgs" />
+                    <p:ajax event="rowEditCancel" listener="#{clientBean.onRowCancel}" update=":form:msgs" />
+
+                    <p:column  headerText="Id" width="30" filterBy="#{client.id}">
+                        <h:outputText value="#{client.id}"/>
+                    </p:column>
+
+                    <p:column headerText="Nome" width="230" filterBy="#{client.name}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{client.name}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="clientNome" value="#{client.name}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                        <!--<h:outputText value="#{client.name}"/>-->
+                    </p:column>
+                    <p:column headerText="cnpj/cpf" width="200" filterBy="#{client.cnpjCpf}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{client.cnpjCpf}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="clientCnpj" value="#{client.cnpjCpf}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                    <p:column headerText="Telefone" filterBy="#{client.phone}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{client.phone}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="clientPhone" value="#{client.phone}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                    <p:column headerText="Endereço" width="300" filterBy="#{client.address}">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{client.address}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="clientAdress" value="#{client.address}" style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    
+                    
+                    <p:column headerText="Edit" width="30">
+                        <p:rowEditor ></p:rowEditor>
+                    </p:column>
+
+                    <p:column headerText="Excluir" width="60" >
+                        <p:commandButton id="btExcluir" process="@this" style="alignment-adjust: central" action="#{clientBean.removeClient()}" icon="ui-icon ui-icon-trash"  update="tabClient" >
+                            <f:setPropertyActionListener value="#{client}" target="#{clientBean.clientSelect}" />
+                            <p:resetInput target="tabClient"/>
+                            <p:confirm header="Confirmar" message="Deseja realmenta excluir Cliente?" icon="ui-icon-alert" />
+                        </p:commandButton> 
+                    </p:column>
+
+                </p:dataTable>
+                <p:confirmDialog  global="true" showEffect="fade" hideEffect="fade" widgetVar="dlg" header="Values">
+                    <p:commandButton value="Sim" update="tabClient" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                </p:confirmDialog>
+            </h:form>
+
+
+        </h:body>
+    </ui:define>
+</ui:composition>
